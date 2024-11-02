@@ -41,8 +41,8 @@ export default function NavBar() {
                 <Link 
                     to='/portfolio' 
                     className={cx({
-                        [styles.activatedLink]: location.pathname === '/account',
-                        [styles.nonActivatedLink]: location.pathname !== '/account'
+                        [styles.activatedLink]: location.pathname === '/portfolio',
+                        [styles.nonActivatedLink]: location.pathname !== '/portfolio'
                     })}
                 >
                     포트폴리오
