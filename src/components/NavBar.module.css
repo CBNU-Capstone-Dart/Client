@@ -1,0 +1,72 @@
+.navBarWrapper {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    background-color: white;
+    padding : 32px 57px;
+    position: fixed;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    z-index: 100
+}
+
+.links {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 56px;
+}
+
+.activatedLink {
+    font-size: 16px;
+    font-weight: bold;
+    color: #292C30;
+    text-decoration: none;
+}
+
+.nonActivatedLink {
+    font-size: 16px;
+    color: #747F8B;
+    text-decoration: none;
+}
+
+.nonActivatedLink:hover {
+    font-weight: bold;
+    color: #292C30;
+}
+
+.searchButton {
+    width: 240px;
+    display: flex;
+    flex-direction: row;
+    justify-content: start;
+    align-items: center;
+    padding: 12px 16px;
+    border: none;
+    border-radius: 24px;
+    background-color: #EAECEE;
+    cursor: pointer;
+}
+
+.searchButton span {
+    color: #8B95A1;
+    font-size: 14px;
+}
+
+.loginButton {
+    border: none;
+    border-radius: 8px;
+    background-color: #3182F6;
+    color: white;
+    padding: 8px 16px;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+}
+
+.loginButton:hover {
+    background-color: #1968d7;
+}
