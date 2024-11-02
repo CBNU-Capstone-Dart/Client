@@ -44,6 +44,15 @@
     max-height: 50px; /* 메시지 높이에 맞춰 조정 */
 }
 
+.inputError {
+    border: 1px solid red;
+}
+
+.errorMessage {
+    color: red;
+    font-size: 0.9em;
+}
+
 .loginFooter {
     width: 100%;
     margin-top: 36px;
