@@ -1,4 +1,4 @@
-import styles from './NavBar.module.css';
+import styles from '../styles/NavBar.module.css';
 import { Link, useLocation } from 'react-router-dom';
 import cx from 'classnames';
 
