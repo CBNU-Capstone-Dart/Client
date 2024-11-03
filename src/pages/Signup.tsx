@@ -167,7 +167,7 @@ export default function Signup() {
                             checked={tosAgree}
                             onChange={handleTosAgreeChange}
                         />
-                        <label htmlFor="tos">이용약관 개인정보 수집 및 정보 이용에 동의합니다.</label>
+                        <label htmlFor="tos" style={{ fontSize: '12px' }}>이용약관 개인정보 수집 및 정보 이용에 동의합니다.</label>
                         {tosError && <div className={styles.errorMessage}>{tosError}</div>}
                     </div>
 
