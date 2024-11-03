@@ -1,0 +1,124 @@
+.portfolioWrapper {
+    width: 100%;
+    padding-top: 160px;
+    display: flex;
+    flex-direction: column;
+    gap: 48px;
+    margin-bottom: 48px;
+}
+
+.portfolioContainer {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 48px;
+}
+
+.portfolioContainer div {
+    flex: 1;
+}
+
+.sectionWrapper {
+    max-height: 300.7px;
+    flex: 1;
+    padding: 16px;
+    border-radius: 24px;
+    border: 1px solid #C5CBD1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow-y: auto;
+}
+
+.portfolioTable {
+    width: 100%; /* 테이블 가로 확장 */
+}
+
+.criterions {
+    align-items: center;
+    padding: 6px 12px;
+    margin-bottom: 24px;
+    background-color: #EAECEE;
+    border-radius: 16px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 12px;
+}
+
+.activatedCriterion {
+    font-size: 12px;
+    font-weight: bold;
+    color: #292C30;
+    cursor: pointer;
+}
+
+.deactivatedCriterion {
+    font-size: 12px;
+    font-weight: normal;
+    color: #747F8B;
+    cursor: pointer;
+}
+
+.editButton {
+    border: none;
+    border-radius: 8px;
+    background-color: #3182F6;
+    color: white;
+    padding: 8px 16px;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+}
+
+.editButton:hover {
+    background-color: #1968d7;
+}
+
+.portfolioTable {
+    border-collapse: collapse;
+}
+
+.tableHeader th {
+    color: #747F8B;
+    padding: 10px;
+    border-bottom: 1px solid #C5CBD1;
+}
+
+.tableData td {
+    font-size: 14px;
+    padding: 10px;
+    cursor: pointer;
+}
+
+.tableData:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+.positiveChange {
+    color: #f04452;
+}
+
+.negativeChange {
+    color: #3182f6;
+}
+
+.summaryLabel {
+    font-size: 12px;
+    font-weight: bold;
+    color: #747F8B;
+}
+
+.summaryMoney {
+    font-size: 18px;
+    font-weight: bold;
+    color: #323232;
+}
+
+.buyType {
+    color: #17A34A;
+}
+
+.sellType {
+    color: #f04452;
+}
