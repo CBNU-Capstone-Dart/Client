@@ -7,10 +7,13 @@ import Login from './pages/Login.tsx';
 import Signup from './pages/Signup.tsx';
 import Portfolio from './pages/Portfolio.tsx';
 import { RecoilRoot } from 'recoil';
+import { AuthProvider } from './pages/AuthContext.tsx';
+
 
 function App() {
   return (
     <RecoilRoot>
+    <AuthProvider> 
       <BrowserRouter>
         <NavBar />
         <div className="container">
@@ -22,6 +25,7 @@ function App() {
           </Routes>
         </div>
       </BrowserRouter>
+      </AuthProvider>
     </RecoilRoot>
   );
 }

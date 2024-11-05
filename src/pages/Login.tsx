@@ -1,8 +1,10 @@
 import { useState } from 'react';
+import { useAuth } from './AuthContext.tsx';
 import styles from "../styles/Login.module.css";
 import classNames from 'classnames/bind';
-import { Link } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import axios from 'axios';
+
 
 const cx = classNames.bind(styles);
 
@@ -13,16 +15,48 @@ export default function Login() {
     const [emailError, setEmailError] = useState('');
     const [passwordError, setPasswordError] = useState('');
 
-    const handleEmailChange = (e) => setEmail(e.target.value);
-    const handlePasswordChange = (e) => setPassword(e.target.value);
+    const { setToken } = useAuth(); // AuthContext에서 setToken 가져오기
+    const navigate = useNavigate();
+
+    const handleEmailChange = (e) => {
+        setEmail(e.target.value);
+        if (emailError) setEmailError(''); // 에러 메시지 초기화
+    };
+
+    const handlePasswordChange = (e) => {
+        setPassword(e.target.value);
+        if (passwordError) setPasswordError(''); // 에러 메시지 초기화
+    };
 
     const handleLoginSubmit = async (e) => {
         e.preventDefault();
+
+        // 입력 값 검증
+        if (!email) {
+            setEmailError("이메일을 입력해주세요.");
+            return;
+        }
+        if (!password) {
+            setPasswordError("비밀번호를 입력해주세요.");
+            return;
+        }
+
         try {
+            // 로그인 API 호출
             const response = await axios.post('http://localhost:8000/login', { email, password });
-            alert(response.data.message); // 로그인 성공
+            const token = response.data.access_token;
+
+            // JWT 토큰 저장
+            setToken(token); // AuthContext를 통해 토큰 설정 -> AutoContext.tsx 만듬
+            localStorage.setItem('jwtToken', token); // 로컬 스토리지에 토큰 저장
+            alert("로그인 성공");
+            navigate("/");
+
+
         } catch (error) {
-            alert(error.response.data.detail); // 로그인 실패
+            // 에러 메시지 처리
+            const errorMessage = error.response?.data?.detail || "로그인 실패";
+            alert(errorMessage);
         }
     };
 
