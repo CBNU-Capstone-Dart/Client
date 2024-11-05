@@ -1,12 +1,13 @@
 import { useState } from 'react';
 import styles from "../styles/Login.module.css";
 import classNames from 'classnames/bind';
-import { passwordRegex, emailRegex } from '../utils/regex.ts'; // emailRegex가 정의되어 있는지 확인
+import { passwordRegex, emailRegex } from '../utils/regex.ts';
 
 const cx = classNames.bind(styles);
 
 export default function Signup() {
     // 입력 상태
+    const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
@@ -17,12 +18,18 @@ export default function Signup() {
     const [showPasswordMessage, setShowPasswordMessage] = useState(false);
 
     // 에러 메시지 상태
+    const [nameError, setNameError] = useState('');
     const [emailError, setEmailError] = useState('');
     const [passwordError, setPasswordError] = useState('');
     const [confirmPasswordError, setConfirmPasswordError] = useState('');
     const [tosError, setTosError] = useState('');
 
     // 입력 변경 핸들러
+    const handleNameChange = (e) => {
+        setName(e.target.value);
+        if (nameError) setNameError(''); // 변경 시 에러 메시지 초기화
+    };
+
     const handleEmailChange = (e) => {
         setEmail(e.target.value);
         if (emailError) setEmailError(''); // 변경 시 에러 메시지 초기화
@@ -55,6 +62,14 @@ export default function Signup() {
     const handleSubmit = (e) => {
         e.preventDefault();
         let valid = true;
+
+        // 이름 검증
+        if (!name) {
+            setNameError('이름을 입력하셔야 됩니다.');
+            valid = false;
+        } else {
+            setNameError('');
+        }
 
         // 이메일 검증
         if (!emailRegex.test(email)) {
@@ -90,11 +105,13 @@ export default function Signup() {
 
         if (valid) {
             // 폼 제출 처리 (예: API 호출)
-            console.log('폼 제출:', { email, password, confirmPassword, tosAgree });
+            console.log('폼 제출:', { name, email, password, confirmPassword, tosAgree });
             // 필요에 따라 폼 리셋 또는 리디렉션
         } else {
             // 첫 번째 에러 입력 필드에 포커스
-            if (emailError) {
+            if (nameError) {
+                document.getElementById('name').focus();
+            } else if (emailError) {
                 document.getElementById('email').focus();
             } else if (passwordError) {
                 document.getElementById('password').focus();
@@ -120,6 +137,19 @@ export default function Signup() {
                             onChange={handleEmailChange}
                         />
                         {emailError && <div className={styles.errorMessage}>{emailError}</div>}
+                    </div>
+
+                    {/* 이름 입력 */}
+                    <div>
+                        <input
+                            id="name"
+                            className={cx('inputForm', { 'inputError': nameError })}
+                            type="text"
+                            placeholder="이름"
+                            value={name}
+                            onChange={handleNameChange}
+                        />
+                        {nameError && <div className={styles.errorMessage}>{nameError}</div>}
                     </div>
 
                     {/* 비밀번호 입력 */}
