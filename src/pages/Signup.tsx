@@ -1,239 +1,98 @@
 import { useState } from 'react';
-import styles from '../styles/Login.module.css';
+import { useAuth } from './AuthContext.tsx';
+import styles from "../styles/Login.module.css";
 import classNames from 'classnames/bind';
-import { passwordRegex, emailRegex } from '../utils/regex.ts';
+import { Link, Navigate, useNavigate } from "react-router-dom";
+import axios from 'axios';
+
 
 const cx = classNames.bind(styles);
 
-export default function Signup() {
-  // 입력 상태
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
-  const [tosAgree, setTosAgree] = useState(false);
+export default function Login() {
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
 
-  // 검증 상태
-  const [passwordValid, setPasswordValid] = useState(false);
-  const [showPasswordMessage, setShowPasswordMessage] = useState(false);
+    const [emailError, setEmailError] = useState('');
+    const [passwordError, setPasswordError] = useState('');
 
-  // 에러 메시지 상태
-  const [nameError, setNameError] = useState('');
-  const [emailError, setEmailError] = useState('');
-  const [passwordError, setPasswordError] = useState('');
-  const [confirmPasswordError, setConfirmPasswordError] = useState('');
-  const [tosError, setTosError] = useState('');
+    const { setToken } = useAuth(); // AuthContext에서 setToken 가져오기
+    const navigate = useNavigate();
 
-  // 입력 변경 핸들러
-  const handleNameChange = (e) => {
-    setName(e.target.value);
-    if (nameError) setNameError(''); // 변경 시 에러 메시지 초기화
-  };
+    const handleEmailChange = (e) => {
+        setEmail(e.target.value);
+        if (emailError) setEmailError(''); // 에러 메시지 초기화
+    };
 
-  const handleEmailChange = (e) => {
-    setEmail(e.target.value);
-    if (emailError) setEmailError(''); // 변경 시 에러 메시지 초기화
-  };
+    const handlePasswordChange = (e) => {
+        setPassword(e.target.value);
+        if (passwordError) setPasswordError(''); // 에러 메시지 초기화
+    };
 
-  const handlePasswordChange = (e) => {
-    setPassword(e.target.value);
-    checkPassword(e.target.value);
-    if (passwordError) setPasswordError(''); // 변경 시 에러 메시지 초기화
-  };
+    const handleLoginSubmit = async (e) => {
+        e.preventDefault();
 
-  const handleConfirmPasswordChange = (e) => {
-    setConfirmPassword(e.target.value);
-    if (confirmPasswordError) setConfirmPasswordError(''); // 변경 시 에러 메시지 초기화
-  };
+        // 입력 값 검증
+        if (!email) {
+            setEmailError("이메일을 입력해주세요.");
+            return;
+        }
+        if (!password) {
+            setPasswordError("비밀번호를 입력해주세요.");
+            return;
+        }
 
-  const handleTosAgreeChange = (e) => {
-    setTosAgree(e.target.checked);
-    if (tosError) setTosError(''); // 변경 시 에러 메시지 초기화
-  };
+        try {
+            // 로그인 API 호출
+            const response = await axios.post('http://localhost:8000/login', { email, password });
+            const token = response.data.access_token;
 
-  const handlePasswordFocus = () => setShowPasswordMessage(true);
-  const handlePasswordBlur = () => setShowPasswordMessage(false);
+            // JWT 토큰 저장
+            setToken(token); // AuthContext를 통해 토큰 설정 -> AutoContext.tsx 만듬
+            localStorage.setItem('jwtToken', token); // 로컬 스토리지에 토큰 저장
+            alert("로그인 성공");
+            navigate("/");
 
-  const checkPassword = (password) => {
-    setPasswordValid(passwordRegex.test(password));
-  };
 
-  // 제출 핸들러
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    let valid = true;
+        } catch (error) {
+            // 에러 메시지 처리
+            const errorMessage = error.response?.data?.detail || "로그인 실패";
+            alert(errorMessage);
+        }
+    };
 
-    // 이름 검증
-    if (!name) {
-      setNameError('이름을 입력하셔야 됩니다.');
-      valid = false;
-    } else {
-      setNameError('');
-    }
-
-    // 이메일 검증
-    if (!emailRegex.test(email)) {
-      setEmailError('유효한 이메일 주소를 입력해주세요.');
-      valid = false;
-    } else {
-      setEmailError('');
-    }
-
-    // 비밀번호 검증
-    if (!passwordRegex.test(password)) {
-      setPasswordError(
-        '비밀번호는 8자리 이상이며 알파벳 대소문자, 숫자, 특수문자를 혼합해야 합니다.',
-      );
-      valid = false;
-    } else {
-      setPasswordError('');
-    }
-
-    // 비밀번호 확인 검증
-    if (password !== confirmPassword) {
-      setConfirmPasswordError('비밀번호가 일치하지 않습니다.');
-      valid = false;
-    } else {
-      setConfirmPasswordError('');
-    }
-
-    // 약관 동의 검증
-    if (!tosAgree) {
-      setTosError('이용약관에 동의해야 합니다.');
-      valid = false;
-    } else {
-      setTosError('');
-    }
-
-    if (valid) {
-      // 폼 제출 처리 (예: API 호출)
-      console.log('폼 제출:', {
-        name,
-        email,
-        password,
-        confirmPassword,
-        tosAgree,
-      });
-      // 필요에 따라 폼 리셋 또는 리디렉션
-    } else {
-      // 첫 번째 에러 입력 필드에 포커스
-      if (nameError) {
-        document.getElementById('name').focus();
-      } else if (emailError) {
-        document.getElementById('email').focus();
-      } else if (passwordError) {
-        document.getElementById('password').focus();
-      } else if (confirmPasswordError) {
-        document.getElementById('confirmPassword').focus();
-      }
-    }
-  };
-
-  return (
-    <div className={styles.loginWrapper}>
-      <div className={styles.loginContainer}>
-        <h2>회원가입</h2>
-        <form onSubmit={handleSubmit} noValidate>
-          {/* 이메일 입력 */}
-          <div>
-            <input
-              id="email"
-              className={cx('inputForm', { inputError: emailError })}
-              type="email"
-              placeholder="이메일"
-              value={email}
-              onChange={handleEmailChange}
-            />
-            {emailError && (
-              <div className={styles.errorMessage}>{emailError}</div>
-            )}
-          </div>
-
-          {/* 이름 입력 */}
-          <div>
-            <input
-              id="name"
-              className={cx('inputForm', { inputError: nameError })}
-              type="text"
-              placeholder="이름"
-              value={name}
-              onChange={handleNameChange}
-            />
-            {nameError && (
-              <div className={styles.errorMessage}>{nameError}</div>
-            )}
-          </div>
-
-          {/* 비밀번호 입력 */}
-          <div>
-            <input
-              id="password"
-              className={cx('inputForm', { inputError: passwordError })}
-              type="password"
-              placeholder="비밀번호"
-              value={password}
-              onChange={handlePasswordChange}
-              onFocus={handlePasswordFocus}
-              onBlur={handlePasswordBlur}
-            />
-            <div
-              className={cx('passwordMessage', { show: showPasswordMessage })}
-            >
-              {passwordValid ? (
-                <>
-                  <span style={{ color: 'green', marginRight: '5px' }}>✔</span>
-                  비밀번호 조건이 충족되었습니다.
-                </>
-              ) : (
-                '비밀번호는 8자리 이상이며 알파벳 대소문자, 숫자, 특수문자를 혼합해야 합니다.'
-              )}
+    return (
+        <div className={styles.loginWrapper}>
+            <div className={styles.loginContainer}>
+                <h2>로그인</h2>
+                <form onSubmit={handleLoginSubmit}>
+                    <div>
+                        <input
+                            id="email"
+                            className={cx('inputForm', { 'inputError': emailError })}
+                            type="email"
+                            placeholder="이메일"
+                            value={email}
+                            onChange={handleEmailChange}
+                        />
+                        {emailError && <div className={styles.errorMessage}>{emailError}</div>}
+                    </div>
+                    <div>
+                        <input
+                            id="password"
+                            className={cx('inputForm', { 'inputError': passwordError })}
+                            type="password"
+                            placeholder="비밀번호"
+                            value={password}
+                            onChange={handlePasswordChange}
+                        />
+                        {passwordError && <div className={styles.errorMessage}>{passwordError}</div>}
+                    </div>
+                    <div className={styles.loginFooter}>
+                        <Link to='/signup'>계정 만들기</Link>
+                        <button type="submit" className={styles.loginButton}>로그인</button>
+                    </div>
+                </form>
             </div>
-            {passwordError && (
-              <div className={styles.errorMessage}>{passwordError}</div>
-            )}
-          </div>
-
-          {/* 비밀번호 확인 입력 */}
-          <div>
-            <input
-              id="confirmPassword"
-              className={cx('inputForm', { inputError: confirmPasswordError })}
-              type="password"
-              placeholder="비밀번호 확인"
-              value={confirmPassword}
-              onChange={handleConfirmPasswordChange}
-            />
-            {confirmPasswordError && (
-              <div className={styles.errorMessage}>{confirmPasswordError}</div>
-            )}
-          </div>
-
-          {/* 이용약관 동의 */}
-          <div>
-            <input
-              type="checkbox"
-              id="tos"
-              name="tos"
-              checked={tosAgree}
-              onChange={handleTosAgreeChange}
-            />
-            <label htmlFor="tos" style={{ fontSize: '12px' }}>
-              이용약관 개인정보 수집 및 정보 이용에 동의합니다.
-            </label>
-            {tosError && <div className={styles.errorMessage}>{tosError}</div>}
-          </div>
-
-          {/* 제출 버튼 */}
-          <div
-            className={styles.loginFooter}
-            style={{ justifyContent: 'flex-end' }}
-          >
-            <button type="submit" className={styles.loginButton}>
-              계정 등록
-            </button>
-          </div>
-        </form>
-      </div>
-    </div>
-  );
+        </div>
+    );
 }
