@@ -2,6 +2,7 @@ import { useState } from 'react';
 import styles from "../styles/Login.module.css";
 import classNames from 'classnames/bind';
 import { Link } from "react-router-dom";
+import axios from 'axios';
 
 const cx = classNames.bind(styles);
 
@@ -9,18 +10,27 @@ export default function Login() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
-    // 에러 메시지 상태
     const [emailError, setEmailError] = useState('');
     const [passwordError, setPasswordError] = useState('');
 
     const handleEmailChange = (e) => setEmail(e.target.value);
     const handlePasswordChange = (e) => setPassword(e.target.value);
 
+    const handleLoginSubmit = async (e) => {
+        e.preventDefault();
+        try {
+            const response = await axios.post('http://localhost:8000/login', { email, password });
+            alert(response.data.message); // 로그인 성공
+        } catch (error) {
+            alert(error.response.data.detail); // 로그인 실패
+        }
+    };
+
     return (
         <div className={styles.loginWrapper}>
             <div className={styles.loginContainer}>
                 <h2>로그인</h2>
-                <form>
+                <form onSubmit={handleLoginSubmit}>
                     <div>
                         <input
                             id="email"
