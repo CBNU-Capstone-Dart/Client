@@ -18,10 +18,10 @@ function App() {
         <NavBar />
         <div className="container">
           <Routes>
-            <Route path='/' element={<Home />} />
-            <Route path='/login' element={<Login />} />
-            <Route path='/signup' element={<Signup />} />
-            <Route path='/portfolio' element={<Portfolio />} />
+            <Route path="/" element={<Home />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/signup" element={<Signup />} />
+            <Route path="/portfolio" element={<Portfolio />} />
           </Routes>
         </div>
       </BrowserRouter>

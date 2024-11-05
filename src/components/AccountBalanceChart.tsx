@@ -11,7 +11,7 @@ const AccountBalanceChart = () => {
   const startDate = new Date(
     today.getFullYear(),
     today.getMonth(),
-    today.getDate() - numberOfDays + 1
+    today.getDate() - numberOfDays + 1,
   );
 
   for (let i = 0; i < numberOfDays; i++) {
