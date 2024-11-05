@@ -11,7 +11,7 @@
     align-items: center;
     padding: 16px;
     border-radius: 12px;
-    border: 1px solid #C5CBD1;
+    border: 1px solid #c5cbd1;
     max-width: 344px;
 }
 
@@ -26,7 +26,7 @@
     width: 300px;
     padding: 10px 14px;
     border-radius: 6px;
-    border: 1px solid #C5CBD1;
+    border: 1px solid #c5cbd1;
     margin: 0px 6px;
     margin-bottom: 12px;
 }
@@ -64,14 +64,14 @@
 
 .loginFooter a {
     font-size: 12px;
-    color: #3182F6;
+    color: #3182f6;
     text-decoration: none;
 }
 
 .loginButton {
     border: none;
     border-radius: 8px;
-    background-color: #3182F6;
+    background-color: #3182f6;
     color: white;
     padding: 8px 16px;
     cursor: pointer;
@@ -92,6 +92,6 @@
 
 .tosAgree label {
     font-size: 12px;
-    color: #3D3D3D;
+    color: #3d3d3d;
     margin-left: 6px;
 }

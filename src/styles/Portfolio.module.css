@@ -24,7 +24,7 @@
     flex: 1;
     padding: 16px;
     border-radius: 24px;
-    border: 1px solid #C5CBD1;
+    border: 1px solid #c5cbd1;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -39,7 +39,7 @@
     align-items: center;
     padding: 6px 12px;
     margin-bottom: 24px;
-    background-color: #EAECEE;
+    background-color: #eaecee;
     border-radius: 16px;
     display: flex;
     flex-direction: row;
@@ -50,21 +50,21 @@
 .activatedCriterion {
     font-size: 12px;
     font-weight: bold;
-    color: #292C30;
+    color: #292c30;
     cursor: pointer;
 }
 
 .deactivatedCriterion {
     font-size: 12px;
     font-weight: normal;
-    color: #747F8B;
+    color: #747f8b;
     cursor: pointer;
 }
 
 .editButton {
     border: none;
     border-radius: 8px;
-    background-color: #3182F6;
+    background-color: #3182f6;
     color: white;
     padding: 8px 16px;
     cursor: pointer;
@@ -80,9 +80,9 @@
 }
 
 .tableHeader th {
-    color: #747F8B;
+    color: #747f8b;
     padding: 10px;
-    border-bottom: 1px solid #C5CBD1;
+    border-bottom: 1px solid #c5cbd1;
 }
 
 .tableData td {
@@ -106,7 +106,7 @@
 .summaryLabel {
     font-size: 12px;
     font-weight: bold;
-    color: #747F8B;
+    color: #747f8b;
 }
 
 .summaryMoney {
@@ -116,7 +116,7 @@
 }
 
 .buyType {
-    color: #17A34A;
+    color: #17a34a;
 }
 
 .sellType {
